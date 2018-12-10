@@ -1,26 +1,35 @@
 package racemanager2000.Game.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
-@Entity
+@Entity (name = "Car")
 public class Car {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private int chassis;
+
+    @Column
     private int engine;
-    @OneToOne
-    private Tyres tires;
+
+    @Column
     private Integer points;
 
-    public Car(String name, int chassis, int engine, Tyres tires) {
+    public Car(String name, int chassis, int engine) {
         if (name == null) {
             throw new IllegalArgumentException("name cannot be null");
         }
-
-        this.tires = tires;
         this.name = name;
         this.chassis = chassis;
         this.engine = engine;
@@ -51,14 +60,6 @@ public class Car {
         this.engine = engine;
     }
 
-    public Tyres getTires() {
-        return tires;
-    }
-
-    public void setTires(String tires) {
-        this.tires = new Tyres(tires);
-    }
-
     public void setPoints(Integer points) {
         if (this.points == null){
             this.points = 0;
@@ -71,6 +72,6 @@ public class Car {
     }
 
     public Integer getCarAbillityOverall() {
-        return (chassis + engine + tires.getAbillity()) / 3;
+        return (chassis + engine) / 2;
     }
 }

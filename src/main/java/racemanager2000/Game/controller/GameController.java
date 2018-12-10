@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import racemanager2000.Game.repository.CarRepository;
 import racemanager2000.Game.service.Seasonrunner;
 
 import java.util.Map;
@@ -14,9 +15,13 @@ public class GameController {
 
     private Seasonrunner seasonrunner;
 
+    private final CarRepository carRepository;
+
+
     @Autowired
-    public GameController(Seasonrunner seasonrunner) {
+    public GameController(Seasonrunner seasonrunner, CarRepository carRepository) {
         this.seasonrunner = seasonrunner;
+        this.carRepository = carRepository;
     }
 
     @RequestMapping("/")
@@ -30,7 +35,9 @@ public class GameController {
         seasonrunner.runSeason(body.get("seasonname"),
                                Integer.parseInt(body.get("numberOfRaces")),
                                body.get("carname"));
-        return "vroem";
+        return "Seizoen " + body.get("seasonname") + " is tot een einde gekomen";
     }
+
+
 
 }
