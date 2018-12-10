@@ -1,14 +1,19 @@
 package racemanager2000.Game.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashMap;
 
 @Entity
 public class Race {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
+    @Column
     private String racename;
+
+    @Column
     private HashMap<Integer, Car> raceResult;
 
     public String getRacename() {
