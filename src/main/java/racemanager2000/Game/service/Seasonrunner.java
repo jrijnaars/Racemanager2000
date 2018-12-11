@@ -41,9 +41,7 @@ public class Seasonrunner {
     private void calculateSeasonResult(Season season) {
         System.out.println(season.getSeasonname() + " is coming to an end!");
 
-        List<Car> cars = (List<Car>) carRepository.findAll();
-        cars.sort((o2, o1) -> (o1.getPoints()).compareTo(o2.getPoints()));
-
+        List<Car> cars = carRepository.findAllByOrderByPointsDesc();
         int position = 1;
         for (Car entry : cars) {
             System.out.println("At place number " + position + " came in : " + entry.getName()
