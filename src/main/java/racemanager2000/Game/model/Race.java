@@ -1,7 +1,10 @@
 package racemanager2000.Game.model;
 
-import javax.persistence.*;
-import java.util.HashMap;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Race {
@@ -13,9 +16,6 @@ public class Race {
     @Column
     private String racename;
 
-    @Column
-    private HashMap<Integer, Car> raceResult;
-
     public String getRacename() {
         return racename;
     }
@@ -23,13 +23,4 @@ public class Race {
     public void setRacename(String racename) {
         this.racename = racename;
     }
-
-    public HashMap<Integer, Car> getRaceResult() {
-        return raceResult;
-    }
-
-    public void setRaceResult(HashMap<Integer, Car> raceResult) {
-        this.raceResult = raceResult;
-    }
-
 }

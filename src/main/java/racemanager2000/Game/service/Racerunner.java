@@ -6,25 +6,29 @@ import racemanager2000.Game.model.Car;
 import racemanager2000.Game.model.Race;
 import racemanager2000.Game.model.Season;
 import racemanager2000.Game.repository.CarRepository;
+import racemanager2000.Game.repository.RaceRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Service
 public class Racerunner {
 
     private final CarRepository carRepository;
 
+    private final RaceRepository raceRepository;
+
     @Autowired
-    public Racerunner(CarRepository carRepository) {
+    public Racerunner(CarRepository carRepository, RaceRepository raceRepository) {
         this.carRepository = carRepository;
+        this.raceRepository = raceRepository;
     }
 
     public Race runRace(int racenumber, Season season) {
         Race race = new Race();
         race.setRacename("Race " + racenumber);
         System.out.println(race.getRacename() + " is going to start");
-        race.setRaceResult(determineRaceResult(calculateOrderDesc(season.getEntryList())));
+        determineRaceResult(calculateOrderDesc(season.getEntryList()));
+        raceRepository.save(race);
         return race;
     }
 
@@ -36,11 +40,9 @@ public class Racerunner {
         return entrylist;
     }
 
-    private HashMap<Integer, Car> determineRaceResult(ArrayList<Car> orderedList) {
-        HashMap<Integer, Car> endResult = new HashMap<>();
+    private void determineRaceResult(ArrayList<Car> orderedList) {
         int position = 1;
         for (Car car : orderedList) {
-            endResult.put(position, car);
             car.setPoints(orderedList.size() - position);
             carRepository.save(car);
             int points = orderedList.size() - position;
@@ -50,6 +52,5 @@ public class Racerunner {
         }
 
         System.out.println("\n");
-        return endResult;
     }
 }
