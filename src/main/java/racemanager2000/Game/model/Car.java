@@ -24,6 +24,9 @@ public class Car {
     private int engine;
 
     @Column
+    private Integer carAbillityOverall;
+
+    @Column
     private Integer points;
 
     public Car(String name, int chassis, int engine) {
@@ -33,7 +36,6 @@ public class Car {
         this.name = name;
         this.chassis = chassis;
         this.engine = engine;
-
     }
 
     public String getName() {
@@ -71,7 +73,11 @@ public class Car {
         return this.points;
     }
 
+    public void setCarAbillityOverall() {
+        this.carAbillityOverall = (this.chassis + this.engine) / 2;
+    }
+
     public Integer getCarAbillityOverall() {
-        return (chassis + engine) / 2;
+        return this.carAbillityOverall;
     }
 }

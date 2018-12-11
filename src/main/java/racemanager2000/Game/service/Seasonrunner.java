@@ -26,8 +26,7 @@ public class Seasonrunner {
     }
 
     public void runSeason(String seasonname, int numberOfRaces, String carname) {
-        Car ownTeam = new Car(carname, 99, 99);
-        createOwnTeam(ownTeam);
+        Car ownTeam = createOwnTeam(carname);
         ArrayList<Car> entryList = createEntryList(carRepository.getByName(ownTeam.getName()));
         ArrayList<Race> races = new ArrayList<>();
         Season season = new Season(seasonname, entryList);
@@ -75,17 +74,22 @@ public class Seasonrunner {
             Integer chassis = RandomUtils.nextInt(1, 98);
             Integer engine = RandomUtils.nextInt(1, 98);
             Car randomcar = new Car(rider, chassis, engine);
+            randomcar.setCarAbillityOverall();
             carRepository.save(randomcar);
             entrylist.add(randomcar);
         }
         return entrylist;
     }
 
-    private void createOwnTeam(Car ownTeam){
+    private Car createOwnTeam(String carname){
         try {
+            Car ownTeam = new Car(carname, 99, 99);
+            ownTeam.setCarAbillityOverall();
             carRepository.save(ownTeam);
+            return ownTeam;
         } catch (Exception e) {
-            System.out.println("deelnemer " + ownTeam.getName() + " bestaat al");
+            System.out.println("deelnemer " + carname + " bestaat al");
+            return carRepository.getByName(carname);
         }
     }
 }
