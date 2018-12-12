@@ -38,6 +38,10 @@ public class Car {
         this.engine = engine;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

@@ -16,6 +16,10 @@ public class Race {
     @Column
     private String racename;
 
+    public Long getId() {
+        return id;
+    }
+
     public String getRacename() {
         return racename;
     }
