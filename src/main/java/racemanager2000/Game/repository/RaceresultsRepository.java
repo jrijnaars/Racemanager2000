@@ -12,7 +12,6 @@ import java.util.List;
 public interface RaceresultsRepository
         extends PagingAndSortingRepository<Raceresult, Long> {
 
-    @Transactional
     Raceresult getRaceresultsByRaceId(Long raceId);
 
     List<Raceresult> findAllByRaceIdOrderByPositionAsc(Long raceId);
