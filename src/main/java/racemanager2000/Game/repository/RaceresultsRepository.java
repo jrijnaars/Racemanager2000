@@ -12,7 +12,9 @@ import java.util.List;
 public interface RaceresultsRepository
         extends PagingAndSortingRepository<Raceresult, Long> {
 
-    Raceresult getRaceresultsByRaceId(Long raceId);
+    Raceresult getRaceresultsByCarId(Long carId);
+
+    List<Raceresult> findAllBySeasonId(Long seasinId);
 
     List<Raceresult> findAllByRaceIdOrderByPositionAsc(Long raceId);
 }

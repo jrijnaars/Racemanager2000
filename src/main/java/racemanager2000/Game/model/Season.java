@@ -1,19 +1,31 @@
 package racemanager2000.Game.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.ArrayList;
 
 @Entity
 public class Season {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
-    private String seasonname;
-    private int numberOfRaces;
-    private ArrayList<Race> allRaces;
 
-    public Season(String seasonname) {
+    @Column
+    private String seasonname;
+
+    @Column
+    private int numberOfRaces;
+
+    public Season(String seasonname, int numberOfRaces) {
         this.seasonname = seasonname;
+        this.numberOfRaces = numberOfRaces;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getSeasonname() {
@@ -30,13 +42,5 @@ public class Season {
 
     public void setNumberOfRaces(int numberOfRaces) {
         this.numberOfRaces = numberOfRaces;
-    }
-
-    public ArrayList<Race> getAllRaces() {
-        return allRaces;
-    }
-
-    public void setAllRaces(ArrayList<Race> allRaces) {
-        this.allRaces = allRaces;
     }
 }

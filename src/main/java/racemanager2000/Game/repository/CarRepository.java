@@ -17,6 +17,4 @@ public interface CarRepository
     Car getById(Long carId);
 
     List<Car> findAllByOrderByCarAbillityOverallDesc();
-
-    List<Car> findAllByOrderByPointsDesc();
 }

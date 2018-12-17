@@ -25,6 +25,9 @@ public class Raceresult {
     @Column
     private Long carId;
 
+    @Column
+    private Long seasonId;
+
     public Long getId() {
         return id;
     }
@@ -59,5 +62,13 @@ public class Raceresult {
 
     public void setCarId(Long carId) {
         this.carId = carId;
+    }
+
+    public Long getSeasonId() {
+        return seasonId;
+    }
+
+    public void setSeasonId(Long seasonId) {
+        this.seasonId = seasonId;
     }
 }

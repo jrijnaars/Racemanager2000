@@ -4,11 +4,14 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racemanager2000.Game.model.Car;
-import racemanager2000.Game.model.Race;
+import racemanager2000.Game.model.Raceresult;
 import racemanager2000.Game.model.Season;
+import racemanager2000.Game.model.Seasonresult;
 import racemanager2000.Game.repository.CarRepository;
+import racemanager2000.Game.repository.RaceresultsRepository;
+import racemanager2000.Game.repository.SeasonRepository;
+import racemanager2000.Game.repository.SeasonresultsRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,35 +19,65 @@ public class Seasonrunner {
 
     private Racerunner racerunner;
 
+    final private RaceresultsRepository raceresultsRepository;
+
     final private CarRepository carRepository;
 
+    final private SeasonRepository seasonRepository;
+
+    final private SeasonresultsRepository seasonresultsRepository;
+
     @Autowired
-    public Seasonrunner(Racerunner racerunner, CarRepository carRepository) {
+    public Seasonrunner(Racerunner racerunner, RaceresultsRepository raceresultsRepository, CarRepository carRepository, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
         this.racerunner = racerunner;
+        this.raceresultsRepository = raceresultsRepository;
         this.carRepository = carRepository;
+        this.seasonRepository = seasonRepository;
+        this.seasonresultsRepository = seasonresultsRepository;
     }
 
     public void runSeason(String seasonname, int numberOfRaces, String carname) {
         createOwnTeam(carname);
-        ArrayList<Race> races = new ArrayList<>();
-        Season season = new Season(seasonname);
+        Season season = new Season(seasonname, numberOfRaces);
+        seasonRepository.save(season);
+
         int raceNumber = 1;
         while (raceNumber <= numberOfRaces){
-            races.add(racerunner.runRace(raceNumber++, season));
+            racerunner.runRace(raceNumber++, season);
         }
-        season.setAllRaces(races);
+
         calculateSeasonResult(season);
     }
 
     private void calculateSeasonResult(Season season) {
         System.out.println(season.getSeasonname() + " is coming to an end!");
 
-        List<Car> cars = carRepository.findAllByOrderByPointsDesc();
+        List<Raceresult> raceresults = raceresultsRepository.findAllBySeasonId(season.getId());
+
+        for (Raceresult raceresult: raceresults) {
+            Seasonresult seasonresult = seasonresultsRepository.getSeasonresultsByCarIdAndSeasonId(raceresult.getCarId(), season.getId());
+            if (seasonresult == null) {
+                Seasonresult newseasonresult = new Seasonresult();
+                newseasonresult.setSeasonId(season.getId());
+                newseasonresult.setCarId(raceresult.getCarId());
+                newseasonresult.setSeasonPoints(raceresult.getPoints());
+                seasonresultsRepository.save(newseasonresult);
+            } else {
+                seasonresult.setSeasonPoints(seasonresult.getSeasonPoints() + raceresult.getPoints());
+                seasonresultsRepository.save(seasonresult);
+            }
+        }
+
+        // TODO: punten berekenen in seasonresults ipv car points
+        List<Seasonresult> result = seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
         int position = 1;
-        for (Car entry : cars) {
-            System.out.println("At place number " + position + " came in : " + entry.getName()
-                                       + " with points scored at the end of the season: " + entry.getPoints());
-            position++;
+        for (Seasonresult seasonresult : result) {
+            seasonresult.setSeasonPosition(position++);
+            seasonresultsRepository.save(seasonresult);
+            Car entry = carRepository.getById(seasonresult.getCarId());
+
+            System.out.println("At place number " + seasonresult.getSeasonPosition() + " came in : " + entry.getName()
+                                       + " with points scored at the end of the season: " + seasonresult.getSeasonPoints());
         }
     }
 

@@ -26,9 +26,6 @@ public class Car {
     @Column
     private Integer carAbillityOverall;
 
-    @Column
-    private Integer points;
-
     public Car () {
 
     }
@@ -68,17 +65,6 @@ public class Car {
 
     public void setEngine(int engine) {
         this.engine = engine;
-    }
-
-    public void setPoints(Integer points) {
-        if (this.points == null){
-            this.points = 0;
-        }
-        this.points = this.points + points;
-    }
-
-    public Integer getPoints() {
-        return this.points;
     }
 
     public void setCarAbillityOverall() {
