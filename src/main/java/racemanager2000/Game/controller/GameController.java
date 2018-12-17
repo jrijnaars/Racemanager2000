@@ -35,6 +35,7 @@ public class GameController {
         seasonrunner.runSeason(body.get("seasonname"),
                                Integer.parseInt(body.get("numberOfRaces")),
                                body.get("carname"));
+
         return "Seizoen " + body.get("seasonname") + " is tot een einde gekomen";
     }
 

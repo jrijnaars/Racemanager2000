@@ -9,7 +9,6 @@ import racemanager2000.Game.model.Season;
 import racemanager2000.Game.repository.CarRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,10 +25,9 @@ public class Seasonrunner {
     }
 
     public void runSeason(String seasonname, int numberOfRaces, String carname) {
-        Car ownTeam = createOwnTeam(carname);
-        ArrayList<Car> entryList = createEntryList(carRepository.getByName(ownTeam.getName()));
+        createOwnTeam(carname);
         ArrayList<Race> races = new ArrayList<>();
-        Season season = new Season(seasonname, entryList);
+        Season season = new Season(seasonname);
         int raceNumber = 1;
         while (raceNumber <= numberOfRaces){
             races.add(racerunner.runRace(raceNumber++, season));
@@ -50,44 +48,21 @@ public class Seasonrunner {
         }
     }
 
-    private ArrayList<Car> createEntryList(Car ownCar) {
-        List<String> riders = Arrays.asList("Jarno Zopfi",
-                                            "Mees van de Rijdt",
-                                            "Bira Van Haver",
-                                            "Melvin Ezinga",
-                                            "Rick Bogaards",
-                                            "Laurens Weber",
-                                            "Benjamin van Hees",
-                                            "Mitchell van Dijk",
-                                            "Esmee Kosterman",
-                                            "Max Knapen",
-                                            "Daan Richartz",
-                                            "Dani van Ruiten"
-                                            );
-
-        ArrayList<Car> entrylist = new ArrayList<>();
-        entrylist.add(ownCar);
-
-        for (String rider: riders) {
-            Integer chassis = RandomUtils.nextInt(1, 98);
-            Integer engine = RandomUtils.nextInt(1, 98);
-            Car randomcar = new Car(rider, chassis, engine);
-            randomcar.setCarAbillityOverall();
-            carRepository.save(randomcar);
-            entrylist.add(randomcar);
-        }
-        return entrylist;
-    }
-
-    private Car createOwnTeam(String carname){
-        try {
-            Car ownTeam = new Car(carname, 99, 99);
+    private void createOwnTeam(String carname){
+        if (carRepository.getByName(carname) == null){
+            Integer chassis = RandomUtils.nextInt(80, 98);
+            Integer engine = RandomUtils.nextInt(80, 98);
+            Car ownTeam = new Car(carname, chassis, engine);
             ownTeam.setCarAbillityOverall();
             carRepository.save(ownTeam);
-            return ownTeam;
-        } catch (Exception e) {
-            System.out.println("deelnemer " + carname + " bestaat al");
-            return carRepository.getByName(carname);
         }
+    }
+
+    private void createContender(String contender) {
+        Integer chassis = RandomUtils.nextInt(1, 98);
+        Integer engine = RandomUtils.nextInt(1, 98);
+        Car randomcar = new Car(contender, chassis, engine);
+        randomcar.setCarAbillityOverall();
+        carRepository.save(randomcar);
     }
 }

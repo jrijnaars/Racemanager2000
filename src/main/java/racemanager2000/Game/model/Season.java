@@ -11,11 +11,9 @@ public class Season {
     private String seasonname;
     private int numberOfRaces;
     private ArrayList<Race> allRaces;
-    private ArrayList<Car> entryList;
 
-    public Season(String seasonname, ArrayList<Car> entryList) {
+    public Season(String seasonname) {
         this.seasonname = seasonname;
-        this.entryList = entryList;
     }
 
     public String getSeasonname() {
@@ -40,13 +38,5 @@ public class Season {
 
     public void setAllRaces(ArrayList<Race> allRaces) {
         this.allRaces = allRaces;
-    }
-
-    public ArrayList<Car> getEntryList() {
-        return entryList;
-    }
-
-    public void setEntryList(ArrayList<Car> entryList) {
-        this.entryList = entryList;
     }
 }

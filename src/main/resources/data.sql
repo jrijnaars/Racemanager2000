@@ -1,0 +1,12 @@
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (3,	22,	3,	42,	'Jarno Zopfi',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (4,	38,	58,	19,	'Mees van de Rijdt',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (5,	46,	47,	45,	'Bira Van Haver',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (6,	70,	81,	59,	'Melvin Ezinga',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (7,	33,	50,	16,	'Rick Bogaards',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (8,	41,	34,	49,	'Laurens Weber',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (9,	32,	43,	21,	'Benjamin van Hees',	null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (10,	33,	35,	32,	'Mitchell van Dijk'	,null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (11,	69,	59,	80,	'Esmee Kosterman'	,null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (12,	58,	68,	49,	'Max Knapen'	,null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (13,	39,	18,	60,	'Daan Richartz'	,null);
+insert into Car (ID, CAR_ABILLITY_OVERALL, CHASSIS, ENGINE, NAME, POINTS) values (14,	35,	60,	10,	'Dani van Ruiten'	,null);

@@ -29,6 +29,10 @@ public class Car {
     @Column
     private Integer points;
 
+    public Car () {
+
+    }
+
     public Car(String name, int chassis, int engine) {
         if (name == null) {
             throw new IllegalArgumentException("name cannot be null");
