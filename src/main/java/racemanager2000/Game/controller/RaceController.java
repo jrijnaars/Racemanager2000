@@ -1,31 +1,29 @@
 package racemanager2000.Game.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racemanager2000.Game.service.Seasonrunner;
+import racemanager2000.Game.service.Racerunner;
 
 import java.util.Map;
 
 @RestController
-public class GameController {
-
-    private Seasonrunner seasonrunner;
+public class RaceController {
 
     @Autowired
-    public GameController(Seasonrunner seasonrunner) {
-        this.seasonrunner = seasonrunner;
+    private Racerunner racerunner;
+
+    public RaceController(Racerunner racerunner) {
+        this.racerunner = racerunner;
     }
 
-    @PostMapping("/startgame")
+    @PostMapping("/startrace")
     public String post(@RequestBody Map<String, String> body) {
-        seasonrunner.startSeason(body.get("seasonname"),
-                               body.get("carname"));
+        racerunner.runRace()
 
         return "Seizoen " + body.get("seasonname") + " is tot een einde gekomen";
     }
-
-
 
 }

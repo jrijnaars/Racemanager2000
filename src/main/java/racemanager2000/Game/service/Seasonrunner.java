@@ -36,17 +36,10 @@ public class Seasonrunner {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    public void runSeason(String seasonname, int numberOfRaces, String carname) {
+    public void startSeason(String seasonname, String carname) {
         createOwnTeam(carname);
         Season season = new Season(seasonname, numberOfRaces);
         seasonRepository.save(season);
-
-        int raceNumber = 1;
-        while (raceNumber <= numberOfRaces){
-            racerunner.runRace(raceNumber++, season);
-        }
-
-        calculateSeasonResult(season);
     }
 
     private void calculateSeasonResult(Season season) {

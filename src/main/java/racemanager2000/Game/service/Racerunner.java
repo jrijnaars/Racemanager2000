@@ -32,7 +32,7 @@ public class Racerunner {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    Race runRace(int racenumber, Season season) {
+    public Race runRace(int racenumber, Season season) {
         Race race = new Race();
         race.setRacename("Race " + racenumber);
         System.out.println(race.getRacename() + " is going to start");
