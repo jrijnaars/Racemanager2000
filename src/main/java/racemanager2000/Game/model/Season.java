@@ -1,10 +1,6 @@
 package racemanager2000.Game.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Season {
@@ -19,9 +15,11 @@ public class Season {
     @Column
     private int numberOfRaces;
 
-    public Season(String seasonname, int numberOfRaces) {
+    public Season() {
+    }
+
+    public Season(String seasonname) {
         this.seasonname = seasonname;
-        this.numberOfRaces = numberOfRaces;
     }
 
     public Long getId() {

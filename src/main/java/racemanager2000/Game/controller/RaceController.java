@@ -21,7 +21,7 @@ public class RaceController {
 
     @PostMapping("/startrace")
     public String post(@RequestBody Map<String, String> body) {
-        racerunner.runRace()
+        racerunner.runRace(body.get("racename"), body.get("seasonname"));
 
         return "Seizoen " + body.get("seasonname") + " is tot een einde gekomen";
     }

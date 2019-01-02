@@ -10,4 +10,7 @@ import racemanager2000.Game.model.Season;
 public interface SeasonRepository
         extends PagingAndSortingRepository<Season, Long> {
 
+    @Transactional
+    Season getSeasonBySeasonname(String seasonname);
+
 }

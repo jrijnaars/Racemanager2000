@@ -36,10 +36,16 @@ public class Seasonrunner {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    public void startSeason(String seasonname, String carname) {
+    public Season startSeason(String seasonname, String carname) throws Exception {
         createOwnTeam(carname);
-        Season season = new Season(seasonname, numberOfRaces);
-        seasonRepository.save(season);
+        Season existingSeason = seasonRepository.getSeasonBySeasonname(seasonname);
+        if (existingSeason == null) {
+            Season season = new Season(seasonname);
+            seasonRepository.save(season);
+            return season;
+        } else {
+            throw new Exception("Season already exists");
+        }
     }
 
     private void calculateSeasonResult(Season season) {
@@ -61,7 +67,6 @@ public class Seasonrunner {
             }
         }
 
-        // TODO: punten berekenen in seasonresults ipv car points
         List<Seasonresult> result = seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
         int position = 1;
         for (Seasonresult seasonresult : result) {

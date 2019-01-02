@@ -6,12 +6,10 @@ import racemanager2000.Game.model.Car;
 import racemanager2000.Game.model.Race;
 import racemanager2000.Game.model.Raceresult;
 import racemanager2000.Game.model.Season;
-import racemanager2000.Game.repository.CarRepository;
-import racemanager2000.Game.repository.RaceRepository;
-import racemanager2000.Game.repository.RaceresultsRepository;
-import racemanager2000.Game.repository.SeasonresultsRepository;
+import racemanager2000.Game.repository.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class Racerunner {
@@ -22,13 +20,16 @@ public class Racerunner {
 
     private final RaceresultsRepository raceresultsRepository;
 
+    private final SeasonRepository seasonRepository;
+
     private final SeasonresultsRepository seasonresultsRepository;
 
     @Autowired
-    public Racerunner(CarRepository carRepository, RaceRepository raceRepository, RaceresultsRepository raceresultsRepository, SeasonresultsRepository seasonresultsRepository) {
+    public Racerunner(CarRepository carRepository, RaceRepository raceRepository, RaceresultsRepository raceresultsRepository, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
         this.carRepository = carRepository;
         this.raceRepository = raceRepository;
         this.raceresultsRepository = raceresultsRepository;
+        this.seasonRepository = seasonRepository;
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
@@ -40,6 +41,32 @@ public class Racerunner {
         List<Car> entryList = carRepository.findAllByOrderByCarAbillityOverallDesc();
         calculateRaceresult(race, entryList, season);
         printRaceResult(race);
+        return race;
+    }
+
+    public Race runRace(String racename, String seasonname){
+        //create race
+        Race race = new Race();
+        race.setRacename(racename);
+        raceRepository.save(race);
+
+        // create raceresults
+        List<Car> entryList = carRepository.findAllByOrderByCarAbillityOverallDesc();
+        Season season = seasonRepository.getSeasonBySeasonname(seasonname);
+        calculateRaceresult(race, entryList, season);
+
+        //update season with number of races
+        List<Raceresult> racesSeason = raceresultsRepository.findAllBySeasonId(season.getId());
+        int numberOfRaces = 0;
+        for (Raceresult result: racesSeason) {
+            Long raceId= 0L;
+            if (!Objects.equals(raceId, result.getId())){
+                raceId = result.getId();
+                numberOfRaces++;
+            }
+        }
+        season.setNumberOfRaces(numberOfRaces);
+        seasonRepository.save(season);
         return race;
     }
 
