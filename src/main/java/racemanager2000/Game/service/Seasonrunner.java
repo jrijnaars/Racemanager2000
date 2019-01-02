@@ -48,11 +48,35 @@ public class Seasonrunner {
         }
     }
 
-    private void calculateSeasonResult(Season season) {
-        System.out.println(season.getSeasonname() + " is coming to an end!");
+    public List<Seasonresult> finishSeason(Season season) throws Exception {
+        if (season.isSeasonFinished()) {
+            throw new Exception("Season is already finished");
+        } else if (season.getNumberOfRaces() <= 0) {
+            throw new Exception("no races are driven for this season");
+        }
 
         List<Raceresult> raceresults = raceresultsRepository.findAllBySeasonId(season.getId());
 
+        convertRaceresultToSeasonresults(raceresults, season);
+
+        setPositionToSeasonresults(season);
+
+        season.setSeasonFinished(true);
+
+        return seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
+
+    }
+
+    private void setPositionToSeasonresults(Season season) {
+        List<Seasonresult> result = seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
+        int position = 1;
+        for (Seasonresult seasonresult : result) {
+            seasonresult.setSeasonPosition(position++);
+            seasonresultsRepository.save(seasonresult);
+        }
+    }
+
+    private void convertRaceresultToSeasonresults(List<Raceresult> raceresults, Season season) {
         for (Raceresult raceresult: raceresults) {
             Seasonresult seasonresult = seasonresultsRepository.getSeasonresultsByCarIdAndSeasonId(raceresult.getCarId(), season.getId());
             if (seasonresult == null) {
@@ -66,17 +90,6 @@ public class Seasonrunner {
                 seasonresultsRepository.save(seasonresult);
             }
         }
-
-        List<Seasonresult> result = seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
-        int position = 1;
-        for (Seasonresult seasonresult : result) {
-            seasonresult.setSeasonPosition(position++);
-            seasonresultsRepository.save(seasonresult);
-            Car entry = carRepository.getById(seasonresult.getCarId());
-
-            System.out.println("At place number " + seasonresult.getSeasonPosition() + " came in : " + entry.getName()
-                                       + " with points scored at the end of the season: " + seasonresult.getSeasonPoints());
-        }
     }
 
     private void createOwnTeam(String carname){
@@ -87,13 +100,5 @@ public class Seasonrunner {
             ownTeam.setCarAbillityOverall();
             carRepository.save(ownTeam);
         }
-    }
-
-    private void createContender(String contender) {
-        Integer chassis = RandomUtils.nextInt(1, 98);
-        Integer engine = RandomUtils.nextInt(1, 98);
-        Car randomcar = new Car(contender, chassis, engine);
-        randomcar.setCarAbillityOverall();
-        carRepository.save(randomcar);
     }
 }

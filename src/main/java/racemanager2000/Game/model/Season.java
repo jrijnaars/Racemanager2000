@@ -15,6 +15,9 @@ public class Season {
     @Column
     private int numberOfRaces;
 
+    @Column
+    private boolean seasonFinished;
+
     public Season() {
     }
 
@@ -40,5 +43,13 @@ public class Season {
 
     public void setNumberOfRaces(int numberOfRaces) {
         this.numberOfRaces = numberOfRaces;
+    }
+
+    public boolean isSeasonFinished() {
+        return seasonFinished;
+    }
+
+    public void setSeasonFinished(boolean seasonFinished) {
+        this.seasonFinished = seasonFinished;
     }
 }

@@ -9,7 +9,6 @@ import racemanager2000.Game.model.Season;
 import racemanager2000.Game.repository.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class Racerunner {
@@ -33,18 +32,12 @@ public class Racerunner {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    public Race runRace(int racenumber, Season season) {
-        Race race = new Race();
-        race.setRacename("Race " + racenumber);
-        System.out.println(race.getRacename() + " is going to start");
-        raceRepository.save(race);
-        List<Car> entryList = carRepository.findAllByOrderByCarAbillityOverallDesc();
-        calculateRaceresult(race, entryList, season);
-        printRaceResult(race);
-        return race;
-    }
+    public Race runRace(String racename, String seasonname) throws Exception {
+        Season season = seasonRepository.getSeasonBySeasonname(seasonname);
+        if (season == null) {
+            throw new Exception("Season doesn't exists");
+        }
 
-    public Race runRace(String racename, String seasonname){
         //create race
         Race race = new Race();
         race.setRacename(racename);
@@ -52,34 +45,12 @@ public class Racerunner {
 
         // create raceresults
         List<Car> entryList = carRepository.findAllByOrderByCarAbillityOverallDesc();
-        Season season = seasonRepository.getSeasonBySeasonname(seasonname);
         calculateRaceresult(race, entryList, season);
 
         //update season with number of races
-        List<Raceresult> racesSeason = raceresultsRepository.findAllBySeasonId(season.getId());
-        int numberOfRaces = 0;
-        for (Raceresult result: racesSeason) {
-            Long raceId= 0L;
-            if (!Objects.equals(raceId, result.getId())){
-                raceId = result.getId();
-                numberOfRaces++;
-            }
-        }
-        season.setNumberOfRaces(numberOfRaces);
+        season.setNumberOfRaces(season.getNumberOfRaces() + 1);
         seasonRepository.save(season);
         return race;
-    }
-
-    private void printRaceResult(Race race) {
-        List<Raceresult> raceresult = raceresultsRepository.findAllByRaceIdOrderByPositionAsc(race.getId());
-
-        for (Raceresult result : raceresult) {
-            Car competitor = carRepository.getById(result.getCarId());
-            System.out.println("At place number " + result.getPosition() + " came in : " + competitor.getName()
-                                       + " with points scored this race: " + result.getPoints());
-        }
-
-        System.out.println("\n");
     }
 
     private void calculateRaceresult(Race race, List<Car> entryList, Season season) {
