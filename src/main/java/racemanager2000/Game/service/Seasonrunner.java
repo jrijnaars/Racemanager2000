@@ -1,9 +1,7 @@
 package racemanager2000.Game.service;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racemanager2000.Game.model.Car;
 import racemanager2000.Game.model.Raceresult;
 import racemanager2000.Game.model.Season;
 import racemanager2000.Game.model.Seasonresult;
@@ -17,7 +15,9 @@ import java.util.List;
 @Service
 public class Seasonrunner {
 
-    private Racerunner racerunner;
+    final private Racerunner racerunner;
+
+    final private CarFactory carFactory;
 
     final private RaceresultsRepository raceresultsRepository;
 
@@ -28,8 +28,9 @@ public class Seasonrunner {
     final private SeasonresultsRepository seasonresultsRepository;
 
     @Autowired
-    public Seasonrunner(Racerunner racerunner, RaceresultsRepository raceresultsRepository, CarRepository carRepository, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
+    public Seasonrunner(Racerunner racerunner, CarFactory carFactory, RaceresultsRepository raceresultsRepository, CarRepository carRepository, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
         this.racerunner = racerunner;
+        this.carFactory = carFactory;
         this.raceresultsRepository = raceresultsRepository;
         this.carRepository = carRepository;
         this.seasonRepository = seasonRepository;
@@ -37,7 +38,7 @@ public class Seasonrunner {
     }
 
     public Season startSeason(String seasonname, String carname) throws Exception {
-        createOwnTeam(carname);
+        carFactory.createOwnTeam(carname);
         Season existingSeason = seasonRepository.getSeasonBySeasonname(seasonname);
         if (existingSeason == null) {
             Season season = new Season(seasonname);
@@ -89,16 +90,6 @@ public class Seasonrunner {
                 seasonresult.setSeasonPoints(seasonresult.getSeasonPoints() + raceresult.getPoints());
                 seasonresultsRepository.save(seasonresult);
             }
-        }
-    }
-
-    private void createOwnTeam(String carname){
-        if (carRepository.getByName(carname) == null){
-            Integer chassis = RandomUtils.nextInt(80, 98);
-            Integer engine = RandomUtils.nextInt(80, 98);
-            Car ownTeam = new Car(carname, chassis, engine);
-            ownTeam.setCarAbillityOverall();
-            carRepository.save(ownTeam);
         }
     }
 }

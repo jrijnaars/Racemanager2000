@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class GameController {
+public class SeasonController {
 
     private Seasonrunner seasonrunner;
 
@@ -23,7 +23,7 @@ public class GameController {
     private SeasonresultsRepository seasonresultsRepository;
 
     @Autowired
-    public GameController(Seasonrunner seasonrunner, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
+    public SeasonController(Seasonrunner seasonrunner, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
         this.seasonrunner = seasonrunner;
         this.seasonRepository = seasonRepository;
         this.seasonresultsRepository = seasonresultsRepository;
@@ -45,7 +45,4 @@ public class GameController {
 
         return seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
     }
-
-
-
 }
