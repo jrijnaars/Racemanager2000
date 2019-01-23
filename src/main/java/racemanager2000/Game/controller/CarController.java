@@ -2,6 +2,7 @@ package racemanager2000.Game.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +10,7 @@ import racemanager2000.Game.model.Car;
 import racemanager2000.Game.repository.CarRepository;
 import racemanager2000.Game.service.CarFactory;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,4 +32,8 @@ public class CarController {
         return carRepository.getByName("carname");
     }
 
+    @GetMapping("/allCars")
+    public List<Car> getCars() throws Exception {
+        return carRepository.findAllByOrderByCarAbillityOverallDesc();
+    }
 }

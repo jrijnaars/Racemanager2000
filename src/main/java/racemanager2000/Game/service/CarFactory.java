@@ -17,12 +17,12 @@ public class CarFactory {
         this.carRepository = carRepository;
     }
 
-    public void createOwnTeam(String carname) throws Exception {
-        Car existingCar = carRepository.getByName(carname);
+    public void createOwnTeam(String carName) throws Exception {
+        Car existingCar = carRepository.getByName(carName);
         if (existingCar == null){
             Integer chassis = RandomUtils.nextInt(80, 98);
             Integer engine = RandomUtils.nextInt(80, 98);
-            Car ownTeam = new Car(carname, chassis, engine);
+            Car ownTeam = new Car(carName, chassis, engine);
             ownTeam.setCarAbillityOverall();
             carRepository.save(ownTeam);
         } else {
