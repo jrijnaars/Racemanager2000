@@ -28,8 +28,9 @@ public class CarController {
 
     @PostMapping("/createCar")
     public Car postCreateCar(@RequestBody Map<String, String> body) throws Exception {
-        carFactory.createOwnTeam(body.get("carname"));
-        return carRepository.getByName("carname");
+        String carname = body.get("carname");
+        carFactory.createOwnTeam(carname);
+        return carRepository.getByName(carname);
     }
 
     @GetMapping("/allCars")

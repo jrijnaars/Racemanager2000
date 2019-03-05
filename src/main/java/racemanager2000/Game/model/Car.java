@@ -1,10 +1,6 @@
 package racemanager2000.Game.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity (name = "Car")
 public class Car {
@@ -69,9 +65,5 @@ public class Car {
 
     public void setCarAbillityOverall() {
         this.carAbillityOverall = (this.chassis + this.engine) / 2;
-    }
-
-    public Integer getCarAbillityOverall() {
-        return this.carAbillityOverall;
     }
 }

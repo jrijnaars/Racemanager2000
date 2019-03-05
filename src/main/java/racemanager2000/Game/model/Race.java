@@ -1,10 +1,6 @@
 package racemanager2000.Game.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Race {
@@ -17,11 +13,11 @@ public class Race {
     private String racename;
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getRacename() {
-        return racename;
+        return this.racename;
     }
 
     public void setRacename(String racename) {
