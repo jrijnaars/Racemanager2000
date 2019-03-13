@@ -2,6 +2,7 @@ package racemanager2000.Game.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import racemanager2000.Game.service.Racerunner;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class RaceController {
 
