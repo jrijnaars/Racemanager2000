@@ -37,8 +37,7 @@ public class Seasonrunner {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    public Season startSeason(String seasonname, String carname) throws Exception {
-        carFactory.createOwnTeam(carname);
+    public Season startSeason(int seasonname) throws Exception {
         Season existingSeason = seasonRepository.getSeasonBySeasonname(seasonname);
         if (existingSeason == null) {
             Season season = new Season(seasonname);

@@ -10,7 +10,7 @@ public class Season {
     private Long id;
 
     @Column
-    private String seasonname;
+    private int seasonname;
 
     @Column
     private int numberOfRaces;
@@ -21,7 +21,7 @@ public class Season {
     public Season() {
     }
 
-    public Season(String seasonname) {
+    public Season(int seasonname) {
         this.seasonname = seasonname;
     }
 
@@ -29,11 +29,11 @@ public class Season {
         return id;
     }
 
-    public String getSeasonname() {
+    public int getSeasonname() {
         return seasonname;
     }
 
-    public void setSeasonname(String seasonname) {
+    public void setSeasonname(int seasonname) {
         this.seasonname = seasonname;
     }
 

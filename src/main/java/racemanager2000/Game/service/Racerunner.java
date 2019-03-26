@@ -32,7 +32,7 @@ public class Racerunner {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    public Race runRace(String racename, String seasonname) throws Exception {
+    public Race runRace(String racename, int seasonname) throws Exception {
         Season season = seasonRepository.getSeasonBySeasonname(seasonname);
         if (season == null) {
             throw new Exception("Season doesn't exists");
