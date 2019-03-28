@@ -9,6 +9,7 @@ import racemanager2000.Game.repository.SeasonresultsRepository;
 import racemanager2000.Game.service.Seasonrunner;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -27,10 +28,10 @@ public class SeasonController {
         this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    @PostMapping(value = "/startseason/")
-    public Season postStart(@RequestBody int body) throws Exception {
-        seasonrunner.startSeason(body);
-        return seasonRepository.getSeasonBySeasonname(body);
+    @PostMapping(value = "/createseason/")
+    public Season postStart(@RequestBody Map<String, Integer> body) throws Exception {
+        seasonrunner.startSeason(body.get("seasonname"));
+        return seasonRepository.getSeasonBySeasonname(body.get("seasonname"));
     }
 
     @PostMapping(value = "/finishseason")
@@ -41,7 +42,7 @@ public class SeasonController {
         return seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
     }
 
-    @GetMapping(value = "/season")
+    @GetMapping(value = "/seasons")
     public List<Season> getSeason() throws Exception {
         return seasonRepository.findAllByOrderBySeasonnameDesc();
     }
