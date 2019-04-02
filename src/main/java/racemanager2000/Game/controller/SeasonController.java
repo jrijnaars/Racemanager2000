@@ -30,8 +30,8 @@ public class SeasonController {
 
     @PostMapping(value = "/createseason/")
     public Season postStart(@RequestBody Map<String, Integer> body) throws Exception {
-        seasonrunner.startSeason(body.get("seasonname"));
-        return seasonRepository.getSeasonBySeasonname(body.get("seasonname"));
+        seasonrunner.startSeason(body.get("seasonName"));
+        return seasonRepository.getSeasonBySeasonname(body.get("seasonName"));
     }
 
     @PostMapping(value = "/finishseason")
