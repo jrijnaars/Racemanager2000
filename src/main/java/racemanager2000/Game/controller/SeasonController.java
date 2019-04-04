@@ -35,8 +35,8 @@ public class SeasonController {
     }
 
     @PostMapping(value = "/finishseason")
-    public List<Seasonresult> postFinish(@RequestBody int body) throws Exception {
-        Season season = seasonRepository.getSeasonBySeasonname(body);
+    public List<Seasonresult> postFinish(@RequestBody Map<String, Integer> body) throws Exception {
+        Season season = seasonRepository.getSeasonBySeasonname(body.get("seasonname"));
         seasonrunner.finishSeason(season);
 
         return seasonresultsRepository.findAllBySeasonIdOrderBySeasonPointsDesc(season.getId());
