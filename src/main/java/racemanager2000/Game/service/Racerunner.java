@@ -2,11 +2,11 @@ package racemanager2000.Game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racemanager2000.Game.model.Car;
-import racemanager2000.Game.model.Race;
-import racemanager2000.Game.model.Raceresult;
-import racemanager2000.Game.model.Season;
-import racemanager2000.Game.repository.*;
+import racemanager2000.Game.model.*;
+import racemanager2000.Game.repository.CarRepository;
+import racemanager2000.Game.repository.RaceRepository;
+import racemanager2000.Game.repository.RaceresultsRepository;
+import racemanager2000.Game.repository.SeasonRepository;
 
 import java.util.List;
 
@@ -21,36 +21,36 @@ public class Racerunner {
 
     private final SeasonRepository seasonRepository;
 
-    private final SeasonresultsRepository seasonresultsRepository;
-
     @Autowired
-    public Racerunner(CarRepository carRepository, RaceRepository raceRepository, RaceresultsRepository raceresultsRepository, SeasonRepository seasonRepository, SeasonresultsRepository seasonresultsRepository) {
+    public Racerunner(CarRepository carRepository, RaceRepository raceRepository, RaceresultsRepository raceresultsRepository, SeasonRepository seasonRepository) {
         this.carRepository = carRepository;
         this.raceRepository = raceRepository;
         this.raceresultsRepository = raceresultsRepository;
         this.seasonRepository = seasonRepository;
-        this.seasonresultsRepository = seasonresultsRepository;
     }
 
-    public Race runRace(String racename, int seasonname) throws Exception {
-        Season season = seasonRepository.getSeasonBySeasonname(seasonname);
+    public Race runRace(RaceSetup racesetup) throws Exception {
+        Season season = seasonRepository.getSeasonBySeasonname(racesetup.getSeasonname());
         if (season == null) {
             throw new Exception("Season doesn't exists");
         }
 
-        //create race
-        Race race = new Race();
-        race.setRacename(racename);
-        raceRepository.save(race);
+        Race existingRace = raceRepository.getByRacename(racesetup.getRacename());
+        if (existingRace == null) {
+            Race race = new Race();
+            race.setRacename(racesetup.getRacename());
+            raceRepository.save(race);
+            // create raceresults
+            List<Car> entryList = carRepository.findAllByOrderByCarAbillityOverallDesc();
+            calculateRaceresult(race, entryList, season);
 
-        // create raceresults
-        List<Car> entryList = carRepository.findAllByOrderByCarAbillityOverallDesc();
-        calculateRaceresult(race, entryList, season);
-
-        //update season with number of races
-        season.setNumberOfRaces(season.getNumberOfRaces() + 1);
-        seasonRepository.save(season);
-        return race;
+            //update season with number of races
+            season.setNumberOfRaces(season.getNumberOfRaces() + 1);
+            seasonRepository.save(season);
+            return race;
+        } else {
+            throw new Exception("Race already exists");
+        }
     }
 
     private void calculateRaceresult(Race race, List<Car> entryList, Season season) {

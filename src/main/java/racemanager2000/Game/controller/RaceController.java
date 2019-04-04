@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racemanager2000.Game.model.RaceSetup;
 import racemanager2000.Game.model.Raceresult;
 import racemanager2000.Game.repository.RaceresultsRepository;
 import racemanager2000.Game.repository.SeasonRepository;
@@ -30,9 +31,9 @@ public class RaceController {
     }
 
     @PostMapping(value="/startrace")
-    public List<Raceresult> post(@RequestBody String racename, Integer seasonname) throws Exception {
-        racerunner.runRace(racename,seasonname);
-        return raceresultsRepository.findAllBySeasonId(seasonRepository.getSeasonBySeasonname(seasonname).getId());
+    public List<Raceresult> post(@RequestBody RaceSetup raceSetup) throws Exception {
+        racerunner.runRace(raceSetup);
+        return raceresultsRepository.findAllBySeasonId(seasonRepository.getSeasonBySeasonname(raceSetup.getSeasonname()).getId());
     }
 
 }

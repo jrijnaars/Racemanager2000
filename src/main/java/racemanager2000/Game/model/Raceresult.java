@@ -1,12 +1,16 @@
 package racemanager2000.Game.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@Accessors(chain = true)
 public class Raceresult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,48 +31,4 @@ public class Raceresult {
 
     @Column
     private Long seasonId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getRaceId() {
-        return raceId;
-    }
-
-    public void setRaceId(Long raceId) {
-        this.raceId = raceId;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public Long getCarId() {
-        return carId;
-    }
-
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
-
-    public Long getSeasonId() {
-        return seasonId;
-    }
-
-    public void setSeasonId(Long seasonId) {
-        this.seasonId = seasonId;
-    }
 }
